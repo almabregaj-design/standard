@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>CourseChooser</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .product { border: 1px solid #ccc; padding: 10px; margin: 5px; border-radius: 5px; width: 250px; cursor: pointer; }
+    .product:hover { background-color: #f0f0f0; }
+    #products { display: flex; flex-wrap: wrap; }
+    #selected { margin-top: 20px; }
+    button { margin-top: 10px; padding: 8px 12px; }
+  </style>
+</head>
+<body>
+
+<h1>CoorseChooser</h1>
+<p>Zgjidh produktet që preferon duke klikuar mbi to:</p>
+
+<div id="products"></div>
+
+<button onclick="showSelected()">Shiko të zgjedhurat</button>
+<button onclick="downloadCSV()">Shkarko zgjedhjet si CSV</button>
+
+<div id="selected"></div>
+
+<script>
+const products = [
+  {name: "Kurs AI Bazik"},
+  {name: "Kurs Machine Learning"},
+  {name: "Kurs Deep Learning"},
+  {name: "Kurs NLP"},
+  {name: "Kurs Data Science"},
+  {name: "Libër Data Science"},
+  {name: "Kurs Big Data"},
+  {name: "Kurs Data Visualization"},
+  {name: "Kurs Statistikë Bazë"},
+  {name: "Kurs Statistikë e Aplikuar"},
+  {name: "Kurs Kërkime Operacionale"},
+  {name: "Kurs Optimisation Models"},
+  {name: "Kurs Decision Analysis"},
+  {name: "Kurs Python Programming"},
+  {name: "Kurs JavaScript"},
+  {name: "Kurs Web Development"},
+  {name: "Kurs Front-End Development"},
+  {name: "Kurs Back-End Development"},
+  {name: "Kurs React"},
+  {name: "Kurs Cloud Computing"},
+  {name: "Kurs DevOps"},
+  {name: "Kurs Cyber Security"},
+  {name: "Kurs Database Systems"},
+  {name: "Kurs SQL"},
+  {name: "Kurs Computer Architecture"},
+  {name: "Kurs Operating Systems"},
+  {name: "Kurs Computer Networks"},
+  {name: "Kurs Network Security"},
+  {name: "Kurs Internet of Things"},
+  {name: "Kurs Embedded Systems"},
+  {name: "Kurs Artificial Intelligence Advanced"},
+  {name: "Kurs Reinforcement Learning"},
+  {name: "Kurs Computer Vision"},
+  {name: "Kurs Data Mining"},
+  {name: "Kurs Predictive Analytics"},
+  {name: "Kurs Business Analytics"},
+  {name: "Kurs Probability Theory"},
+  {name: "Kurs Mathematical Optimization"},
+  {name: "Kurs Linear Programming"},
+  {name: "Kurs Simulation Models"},
+  {name: "Kurs Distributed Systems"},
+  {name: "Kurs Parallel Computing"},
+  {name: "Kurs Microprocessors"},
+  {name: "Kurs Digital Systems"},
+  {name: "Kurs Linux Administration"},
+  {name: "Kurs Advanced Networking"},
+  {name: "Kurs Wireless Networks"},
+  {name: "Kurs IoT Systems"},
+  {name: "Kurs Smart Devices Programming"},
+  {name: "Kurs Blockchain Fundamentals"}
+];
+
+const selected = [];
+
+function renderProducts() {
+  const container = document.getElementById('products');
+  container.innerHTML = '';
+  products.forEach((product, index) => {
+    const div = document.createElement('div');
+    div.className = 'product';
+    div.textContent = product.name;
+    div.onclick = () => toggleSelect(index);
+    container.appendChild(div);
+  });
+}
+
+function toggleSelect(index) {
+  const i = selected.indexOf(index);
+  if(i === -1) {
+    selected.push(index);
+  } else {
+    selected.splice(i,1);
+  }
+  highlightSelected();
+}
+
+function highlightSelected() {
+  const container = document.getElementById('products');
+  container.childNodes.forEach((div, idx) => {
+    if(selected.includes(idx)) {
+      div.style.backgroundColor = '#d0f0d0';
+    } else {
+      div.style.backgroundColor = '';
+    }
+  });
+}
+
+function showSelected() {
+  const display = document.getElementById('selected');
+  if(selected.length === 0) {
+    display.textContent = "Nuk keni zgjedhur asnjë produkt.";
+  } else {
+    display.innerHTML = "Produktet e zgjedhura:<br>" + selected.map(i => products[i].name).join("<br>");
+  }
+}
+
+function downloadCSV() {
+  if(selected.length === 0) return alert("Nuk keni zgjedhur asnjë produkt!");
+  let csvContent = "data:text/csv;charset=utf-8,Përdorues,Produkt\n";
+  selected.forEach(i => {
+    csvContent += `User1,${products[i].name}\n`;
+  });
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "zgjedhjet_user1.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+// Inicializo mini-shop
+renderProducts();
+</script>
+
+</body>
+</html>
